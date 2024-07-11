@@ -1,0 +1,43 @@
+{% load static %}
+
+<!-- Main Wrapper start -->
+
+<div class="main-wrapper">
+    <!-- header start -->
+    <header class="header">
+        <div class="container">
+            <div class="header-main d-flex justify-content-between align-items-center">
+                <div class="header-logo">
+                    <a href="{% url 'home' %}"><span>Study</span> Academy</a>
+                </div>
+                <button type="button" class="header-hamburger-btn js-header-menu-toggler">
+                    <span></span>
+                </button>
+                <div class="header-backdrop js-header-backdrop"></div>
+                <nav class="header-menu js-header-menu">
+                    <button type="button" class="header-close-btn js-header-menu-toggler">
+                        <i class="fas fa-times"></i>
+                    </button>
+                    <ul class="menu">
+                        <li class="menu-items"><a href="home.html">Home</a></li>
+                        <li class="menu-items menu-item-has-children">
+                            <a href="#" class="js-toggle-sub-menu">Courses <i class="fas fa-chevron-down"></i></a>
+                            <ul class="sub-menu js-sub-menu">
+                                <li class="sub-menu-items"><a href="courses.html">course</a></li>
+                                <li class="sub-menu-items"><a href="course_details.html">course details</a></li>
+                            </ul>
+                        </li>
+                        <li class="menu-items menu-item-has-children">
+                            <a href="#" class="js-toggle-sub-menu">Pages <i class="fas fa-chevron-down"></i></a>
+                            <ul class="sub-menu js-sub-menu">
+                                <li class="sub-menu-items"><a href="login.html">Login</a></li>
+                                <li class="sub-menu-items"><a href="signup.html">Sigup</a></li>
+                            </ul>
+                        </li>
+                        <li class="menu-items"><a href="contact.html">Contact</a></li>
+                    </ul>
+                </nav>
+            </div>
+        </div>
+    </header>
+    <!-- header end -->
