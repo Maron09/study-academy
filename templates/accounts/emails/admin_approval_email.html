@@ -1,0 +1,12 @@
+{% autoescape off %} 
+
+Hi {{user.name}},
+
+{% if is_approved %}
+Congratulations!!! You are now approved by Study Academy to Teach -- Study Academy
+{% else %}
+We're Sorry! You are not qualified to teach on Study Academy -- Study Academy
+{% else %}
+{% endif %}
+
+{% endautoescape %}

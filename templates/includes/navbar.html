@@ -19,21 +19,27 @@
                         <i class="fas fa-times"></i>
                     </button>
                     <ul class="menu">
-                        <li class="menu-items"><a href="home.html">Home</a></li>
+                        <li class="menu-items"><a href="{% url 'home' %}">Home</a></li>
                         <li class="menu-items menu-item-has-children">
                             <a href="#" class="js-toggle-sub-menu">Courses <i class="fas fa-chevron-down"></i></a>
                             <ul class="sub-menu js-sub-menu">
-                                <li class="sub-menu-items"><a href="courses.html">course</a></li>
-                                <li class="sub-menu-items"><a href="course_details.html">course details</a></li>
+                                <li class="sub-menu-items"><a href="#">course</a></li>
+                                <li class="sub-menu-items"><a href="#">course details</a></li>
                             </ul>
                         </li>
+                        {% if user.is_authenticated %}
+                        <li class="menu-items"><a href="{% url 'my_account' %}">My Account</a></li>
+                        <li class="menu-items"><a href="{% url 'logout' %}">Logout</a></li>
+                        {% else %}
                         <li class="menu-items menu-item-has-children">
                             <a href="#" class="js-toggle-sub-menu">Pages <i class="fas fa-chevron-down"></i></a>
                             <ul class="sub-menu js-sub-menu">
-                                <li class="sub-menu-items"><a href="login.html">Login</a></li>
-                                <li class="sub-menu-items"><a href="signup.html">Sigup</a></li>
+                                <li class="sub-menu-items"><a href="{% url 'login' %}">Login</a></li>
+                                <li class="sub-menu-items"><a href="{% url 'register_user' %}">Sigup</a></li>
+                                <li class="sub-menu-items"><a href="{% url 'register_teacher' %}">Sigup as a Teacher</a></li>
                             </ul>
                         </li>
+                        {% endif %}
                         <li class="menu-items"><a href="contact.html">Contact</a></li>
                     </ul>
                 </nav>
