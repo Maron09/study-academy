@@ -10,7 +10,7 @@ class CustomUserAdmin(BaseUserAdmin):
 
     list_display = ('email', 'first_name', 'last_name', 'role', 'is_active')
     list_filter = ('is_active', 'is_staff', 'is_admin', 'is_superadmin')
-    ordering = ('date_joined',)
+    ordering = ('-date_joined',)
     search_fields = ('email', 'first_name', 'last_name')
 
     fieldsets = (

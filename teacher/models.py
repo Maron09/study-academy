@@ -20,20 +20,28 @@ class Teacher(models.Model):
     def name(self):
         return f'{self.user.first_name} {self.user.last_name}'
 
+    def clean(self):
+        self.profession = self.profession.capitalize()
+    
+    def __str__(self):
+        return self.name
+    
     def save(self, *args, **kwargs):
         if self.pk is not None:
             orign = Teacher.objects.get(pk=self.pk)
             if orign.is_approved != self.is_approved:
                 mail_template = 'accounts/emails/admin_approval_email.html'
                 context = {
-                    'user': self.name,
+                    'user': self.user,
+                    'profession': self.profession,
                     'is_approved': self.is_approved,
-                    'to_email': self.email,
+                    'to_email': self.user.email,
                 }
                 if self.is_approved == True:
-                    mail_subject = "Congratulations!!! You are now approved by Study Academy to Teach"
+                    mail_subject = "Congratulations!!! You are now approved by Study Academy"
                     send_notification(mail_subject, mail_template, context)
                 else:
                     mail_subject = "We're Sorry! You are not qualified to teach on Study Academy"
                     send_notification(mail_subject, mail_template, context)
+        return super(Teacher, self).save(*args, **kwargs)
 

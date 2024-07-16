@@ -28,8 +28,8 @@
                             </ul>
                         </li>
                         {% if user.is_authenticated %}
-                        <li class="menu-items"><a href="{% url 'my_account' %}">My Account</a></li>
-                        <li class="menu-items"><a href="{% url 'logout' %}">Logout</a></li>
+                        <li class="menu-items"><a href="{% url 'my_account' %}">Account<i class="fa fa-user" style='font-size:15px'></i></a></li>
+                        <li class="menu-items"><a href="{% url 'logout' %}">Logout <i class="fa fa-sign-out" style="font-size: 15px;"></i></a></li>
                         {% else %}
                         <li class="menu-items menu-item-has-children">
                             <a href="#" class="js-toggle-sub-menu">Pages <i class="fas fa-chevron-down"></i></a>
@@ -40,7 +40,7 @@
                             </ul>
                         </li>
                         {% endif %}
-                        <li class="menu-items"><a href="contact.html">Contact</a></li>
+                        <!-- <li class="menu-items"><a href="contact.html">Contact</a></li> -->
                     </ul>
                 </nav>
             </div>

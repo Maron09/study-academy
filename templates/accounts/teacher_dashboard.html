@@ -1,1 +1,193 @@
-<h1>Teacher</h1>
+{% extends 'base2.html' %}
+
+{% load static %}
+
+
+{% block content %}
+
+    <!-- Navbar -->
+    <div class="container">
+        {% include 'includes/teach_nav.html' %}
+        <!-- main -->
+        <div class="main">
+            <div class="topbar d-flex justify-content-between flex-grow-1">
+                <div class="toggle">
+                    <ion-icon name="menu-outline"></ion-icon>
+                </div>
+
+                <div class="search">
+                    <label>
+                        <input type="text" placeholder="search..">
+                        <ion-icon name="search-outline"></ion-icon>
+                    </label>
+                </div>
+            </div>
+
+            <!-- cards -->
+            <div class="cardBox">
+                
+                <div class="card">
+                    <div>
+                        <div class="numbers">4</div>
+                        <div class="cardName text-capitalize">courses</div>
+                    </div>
+                    <div class="iconBox">
+                        <ion-icon name="videocam-outline"></ion-icon>
+                    </div>
+                </div>
+                <div class="card">
+                    <div>
+                        <div class="numbers">800</div>
+                        <div class="cardName text-capitalize">students</div>
+                    </div>
+                    <div class="iconBox">
+                        <ion-icon name="people-circle-outline"></ion-icon>
+                    </div>
+                </div>
+                <div class="card">
+                    <div>
+                        <div class="numbers">284</div>
+                        <div class="cardName text-capitalize">reviews</div>
+                    </div>
+                    <div class="iconBox">
+                        <ion-icon name="chatbubble-outline"></ion-icon>
+                    </div>
+                </div>
+                <div class="card">
+                    <div>
+                        <div class="numbers">$7,534</div>
+                        <div class="cardName text-capitalize">earnings</div>
+                    </div>
+                    <div class="iconBox">
+                        <ion-icon name="cash-outline"></ion-icon>
+                    </div>
+                </div>
+            </div>
+            <!-- orders -->
+            <div class="details">
+                <div class="recent_orders">
+                    <div class="card_header">
+                        <h2>recent orders</h2>
+                        <a href="#" class="bt btn btn-theme">view all</a>
+                    </div>
+
+                    <table>
+                        <thead>
+                            <tr>
+                                <td>course</td>
+                                <td>price</td>
+                                <td>student</td>
+                                <td>payment</td>
+                                <td>status</td>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>Django for beginners</td>
+                                <td>$49</td>
+                                <td>chimaroke onyebi</td>
+                                <td>PayPal</td>
+                                <td><span class="status delivered">new</span></td>
+                            </tr>
+                            <tr>
+                                <td>HTML for beginners</td>
+                                <td>$40</td>
+                                <td>chimaroke onyebi</td>
+                                <td>PayPal</td>
+                                <td><span class="status pending">new</span></td>
+                            </tr>
+                            <tr>
+                                <td>CSS for beginners</td>
+                                <td>$30</td>
+                                <td>chimaroke onyebi</td>
+                                <td>PayPal</td>
+                                <td><span class="status return">new</span></td>
+                            </tr>
+                            <tr>
+                                <td>javascript for beginners</td>
+                                <td>$59</td>
+                                <td>chimaroke onyebi</td>
+                                <td>PayPal</td>
+                                <td><span class="status inprogress">new</span></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <div class="recent_customers">
+                    <div class="card_header">
+                        <h2>recent students</h2>
+                        <!-- <a href="#" class="bt btn btn-theme">view all</a> -->
+                    </div>
+                    <table>
+                        <tr>
+                            <td width="60px">
+                                <div class="imgBox">
+                                    <img src="img/testimonial/1.png" alt="">
+                                </div>
+                            </td>
+                            <td>
+                                <h4>chimaroke <br> <span>onyebi</span></h4>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td width="60px">
+                                <div class="imgBox">
+                                    <img src="img/testimonial/2.png" alt="">
+                                </div>
+                            </td>
+                            <td>
+                                <h4>chimaroke <br> <span>onyebi</span></h4>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td width="60px">
+                                <div class="imgBox">
+                                    <img src="img/testimonial/1.png" alt="">
+                                </div>
+                            </td>
+                            <td>
+                                <h4>chimaroke <br> <span>onyebi</span></h4>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td width="60px">
+                                <div class="imgBox">
+                                    <img src="img/testimonial/2.png" alt="">
+                                </div>
+                            </td>
+                            <td>
+                                <h4>chimaroke <br> <span>onyebi</span></h4>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td width="60px">
+                                <div class="imgBox">
+                                    <img src="img/testimonial/1.png" alt="">
+                                </div>
+                            </td>
+                            <td>
+                                <h4>chimaroke <br> <span>onyebi</span></h4>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td width="60px">
+                                <div class="imgBox">
+                                    <img src="img/testimonial/2.png" alt="">
+                                </div>
+                            </td>
+                            <td>
+                                <h4>chimaroke <br> <span>onyebi</span></h4>
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+
+
+{% include 'includes/style_switchers.html' %}
+{% endblock %}

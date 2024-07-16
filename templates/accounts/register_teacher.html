@@ -26,7 +26,7 @@
                     <form method="post" action="{% url 'register_teacher' %}" method="POST" enctype="multipart/form-data">
                         {% csrf_token %}
                         <div class="form-group">
-                            <label for="id_first_name">Full Name</label>
+                            <label for="id_first_name">First Name</label>
                             {{ form.first_name }}
                             {% if form.first_name.errors %}
                                 <ul class="errorlist" style="color: red;">

@@ -1,12 +1,11 @@
 {% autoescape off %} 
 
-Hi {{user.name}},
+Hi {{user.first_name}} {{user.last_name}},
 
 {% if is_approved %}
-Congratulations!!! You are now approved by Study Academy to Teach -- Study Academy
+Congratulations!!! You are now approved by Study Academy to Teach as a {{profession}} -- Study Academy
 {% else %}
-We're Sorry! You are not qualified to teach on Study Academy -- Study Academy
-{% else %}
+We're Sorry! You are not qualified to teach on Study Academyas a {{profession}} -- Study Academy
 {% endif %}
 
 {% endautoescape %}
