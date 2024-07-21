@@ -8,12 +8,12 @@
                 <span class="icon user">
                     <img src="img/testimonial/1.png" alt="">
                 </span>
-                <span class="title text-capitalize">John Doe</span>
+                <span class="title text-capitalize"><b>{{user.first_name}} {{user.last_name}}</b></span>
             </a>   
-            <small class="icon" style="color: #fff; display: flex; align-items: flex-start; justify-content: center; margin-top: 5px;">Web Developer</small>
+            <small class="icon" style="color: #fff; display: flex; align-items: flex-start; justify-content: center; margin-top: 5px;"><b>{{teacher.profession}}</b></small>
         </li>
         <li>
-            <a href="home.html">
+            <a href="{% url 'home' %}">
                 <span class="icon">
                     <ion-icon name="home-outline"></ion-icon>
                 </span>
@@ -65,7 +65,7 @@
         <br>
         <hr>
         <li>
-            <a href="" style="margin-top: 50px;">
+            <a href="{% url 'logout' %}" style="margin-top: 50px;">
                 <span class="icon">
                     <ion-icon name="log-out-outline"></ion-icon>
                 </span>

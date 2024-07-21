@@ -9,9 +9,8 @@
                 <span class="icon user">
                     <img src="img/testimonial/1.png" alt="">
                 </span>
-                <span class="title text-capitalize">John Doe</span>
+                <span class="title text-capitalize">{{user.first_name}} {{user.last_name}}</span>
             </a>   
-            <small class="icon" style="color: #fff; display: flex; align-items: flex-start; justify-content: center; margin-top: 5px;">Web Developer</small>
         </li>
         <li>
             <a href="{% url 'home' %}">
