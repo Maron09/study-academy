@@ -1,7 +1,7 @@
 from django import forms
 from django.contrib.auth.forms import ReadOnlyPasswordHashField
 from .models import *
-
+from .validators import *
 
 
 
@@ -63,6 +63,8 @@ class UserForm(forms.ModelForm):
 
 
 class UserProfileForm(forms.ModelForm):
+    profile_picture = forms.FileField(widget=forms.FileInput(attrs={'class': 'btn btn-info'}), validators=[allow_only_images])
+    country = forms.CharField(widget=forms.TextInput(attrs={'class': 'form-group'}))
     class Meta:
         model = UserProfile
         fields = ['profile_picture', 'country']
