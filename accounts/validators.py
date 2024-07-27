@@ -7,3 +7,10 @@ def allow_only_images(value):
     valid_extensions = ['.png', '.jpg', '.jpeg']
     if not ext.lower() in valid_extensions:
         raise ValidationError('Unsupported File Extension, Allowed Extensions:'+ str(valid_extensions))
+
+
+def allow_only_videos(value):
+    ext = os.path.splitext(value.name)[1]
+    valid_extensions = ['.mp4', '.avi', '.mov', '.mkv', '.wmv']
+    if not ext.lower() in valid_extensions:
+        raise ValidationError('Unsupported File Extension, Allowed Extensions:'+ str(valid_extensions))

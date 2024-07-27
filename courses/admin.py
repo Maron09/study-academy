@@ -7,14 +7,14 @@ from .models import *
 class CategoryAdmin(admin.ModelAdmin):
     prepopulated_fields = {'slug': ('category_name',)}
     list_display = ('category_name','teacher', 'modified_at')
-    search_fields = ('category_name', 'teacher__user')
+    search_fields = ('category_name', 'teacher__user__first_name', 'teacher__user__last_name')
     
 
 @admin.register(Course)
 class CourseAdmin(admin.ModelAdmin):
     prepopulated_fields = {'slug': ('course_name',)}
     list_display = ('course_name', 'category', 'price', 'teacher', 'created_at', 'modified_at')
-    search_fields = ('course_name', 'teacher__user')
+    search_fields = ('course_name', 'teacher__user__first_name', 'teacher__user__last_name')
     fieldsets = (
         (None, {
             'fields': ('course_name', 'description', 'category', 'intro_video', 'image', 'slug', 'price', 'teacher')

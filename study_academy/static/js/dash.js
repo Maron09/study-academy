@@ -152,3 +152,32 @@ toggle.onclick = function(){
     main.classList.toggle("active")
     
 }
+
+document.addEventListener('DOMContentLoaded', (event) => {
+    const videoThumbnails = document.querySelectorAll('.video-thumbnail');
+    const modal = document.getElementById('videoModal');
+    const modalVideo = document.getElementById('modalVideo');
+    const span = document.getElementsByClassName('close')[0];
+
+    videoThumbnails.forEach(thumbnail => {
+        thumbnail.onclick = function() {
+            const videoUrl = this.getAttribute('data-video-url');
+            modal.style.display = 'block';
+            modalVideo.src = videoUrl;
+            modalVideo.load();
+            modalVideo.play();
+        }
+    });
+
+    span.onclick = function() {
+        modal.style.display = 'none';
+        modalVideo.pause();
+    }
+
+    window.onclick = function(event) {
+        if (event.target == modal) {
+            modal.style.display = 'none';
+            modalVideo.pause();
+        }
+    }
+});

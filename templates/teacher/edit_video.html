@@ -1,0 +1,87 @@
+{% extends 'base2.html' %}
+
+{% load static %}
+
+
+{% block content %}
+
+    <!-- Navbar -->
+    <div class="container">
+        {% include 'includes/teach_nav.html' %}
+        <!-- main -->
+        <div class="main">
+            <div class="topbar d-flex justify-content-between flex-grow-1">
+                <div class="toggle">
+                    <ion-icon name="menu-outline"></ion-icon>
+                </div>
+
+                <div class="search">
+                    <label>
+                        <input type="text" placeholder="search..">
+                        <ion-icon name="search-outline"></ion-icon>
+                    </label>
+                </div>
+            </div>
+
+            
+            <!-- orders -->
+            <div class="course_details">
+                <div class="course_field">
+                    <div class="card_header">
+                        <h2>Modify Video Details</h2>
+                    </div>
+                    
+                    <button class="btn btn-secondary" onclick="history.back()"><i class="fa fa-arrow-left"></i> &nbsp;</button>
+                    <hr>
+                    <form action="{% url 'edit_video' video.id %}" method="POST" enctype="multipart/form-data">
+                        {% csrf_token %}
+                        
+                        <div class="form-group">
+                            <label for="">Video Title</label>
+                            {{form.video_title}}
+                            
+                        </div>
+                        <div class="form-group">
+                            <label for="">Section</label>
+                            {{form.section}}
+                        </div>
+                        <div class="form-group">
+                            <label for="">Video File</label>
+                            {{form.video_file}}
+                            {% if form.video_file %}
+                                <video width="100" controls style="margin-top: 10px;">
+                                    <source src="{{ form.video_file.url }}" type="video/mp4">
+                                    Your browser does not support the video tag.
+                                </video>
+                            {% else %}
+                                <p>No video uploaded</p>
+                            {% endif %}
+                            
+                            {% if form.video_file.errors %}
+                                <ul class="errorlist" style="color: red;">
+                                    {% for error in form.video_file.errors %}
+                                        <li>{{ error }}</li>
+                                    {% endfor %}
+                                </ul>
+                            {% endif %}
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="">Order</label>
+                            {{form.order}}
+                            
+                        </div>
+                        <button style="margin-bottom: 20px;" type="submit" class="btn btn-theme btn-block btn-form"> <i class="fa fa-check" aria-hidden="true"></i> Update</button>
+                        <a href="{% url 'delete_video' video.id %}" onclick="return confirm('Are you sure you to delete the video details?')" class="btn btn-danger btn-sm"><i class="fa fa-trash"></i>&nbsp; Delete</a> 
+                    </form>
+                </div>
+            </div>
+            
+        </div>
+    </div>
+
+
+
+    {% include 'includes/alert.html' %}
+{% include 'includes/style_switchers.html' %}
+{% endblock %}

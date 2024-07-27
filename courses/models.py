@@ -1,5 +1,6 @@
 from django.db import models
 from teacher.models import *
+from moviepy.editor import VideoFileClip
 
 
 class Category(models.Model):
@@ -65,6 +66,11 @@ class Video(models.Model):
     
     class Meta:
         ordering = ['order']
+    
+    def get_duration(self):
+        video = VideoFileClip(self.video_file.path)
+        duration = video.duration
+        return duration / 60
     
     
     def __str__(self):

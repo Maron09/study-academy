@@ -1,0 +1,109 @@
+{% extends 'base2.html' %}
+
+{% load static %}
+
+
+{% block content %}
+
+    <!-- Navbar -->
+    <div class="container">
+        {% include 'includes/teach_nav.html' %}
+        <!-- main -->
+        <div class="main">
+            <div class="topbar d-flex justify-content-between flex-grow-1">
+                <div class="toggle">
+                    <ion-icon name="menu-outline"></ion-icon>
+                </div>
+
+                <div class="search">
+                    <label>
+                        <input type="text" placeholder="search..">
+                        <ion-icon name="search-outline"></ion-icon>
+                    </label>
+                </div>
+            </div>
+
+            
+            <!-- orders -->
+            <div class="course_details">
+                <div class="course_field">
+                    <div class="card_header">
+                        <h2>Add Your Videos</h2>
+                    </div>
+                    <div class="breadcrumb-container">
+                        <div class="container">
+                            <nav aria-label="breadcrumb">
+                                <ol class="breadcrumb">
+                                    <li class="breadcrumb-item">
+                                        <a href="{% url 'course_builder' %}">Categories</a>
+                                    </li>
+                                    <li class="breadcrumb-item">
+                                        <a href="{% url 'course_by_category' course.category.id %}">Courses</a>
+                                    </li>
+                                    <li class="breadcrumb-item">
+                                        <a href="{% url 'section_by_course' section.course.id %}">Sections</a>
+                                    </li>
+                                    <li class="breadcrumb-item active" aria-current="page">Videos</li>
+                                </ol>
+                            </nav>
+                        </div>
+                    </div>
+                    
+                    <hr>
+                    <div>
+                        <h6 style="font-size: 20px;">{{section_title}}</h6>
+                        {% if video_data %}
+                        <a href="{% url 'add_video' %}" class="bt btn btn-theme">Add Video</a>
+                        <table class="table table-hover table-borderless">
+                            <thead>
+                                <tr>
+                                    <th>Videos</th>
+                                    <th>Duration</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for vid_data in video_data %}
+                                    <tr>
+                                        <td style="display: flex; align-items: center;">
+                                            <video width="100" height="auto" class="video-thumbnail" data-video-url="{{ vid_data.video.video_file.url }}">
+                                                <source src="{{ vid_data.video.video_file.url }}" type="video/mp4">
+                                                Your browser does not support the video tag.
+                                            </video>
+                                            <span class="category" style="margin-left: 10px; line-height: 10px;"><b>{{ vid_data.video }}</b></span>
+                                        </td>
+                                        <td><b>{{ vid_data.duration|floatformat:2 }} min</b></td>
+                                        <td>
+                                            <a href="{% url 'edit_video' vid_data.video.id %}" class="btn btn-secondary btn-sm"><i class="fa fa-edit" aria-hidden="true"></i> &nbsp;Edit</a>
+                                            <a href="{% url 'delete_video' vid_data.video.id %}" onclick="return confirm('Are you sure you want to delete the video details?')" class="btn btn-danger btn-sm"><i class="fa fa-trash" aria-hidden="true"></i> &nbsp;Delete</a>
+                                        </td>
+                                    </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                        <!-- Modal Structure -->
+                        <div id="videoModal" class="modal">
+                            <div class="modal-content">
+                                <span class="close">&times;</span>
+                                <video width="600" height="auto" controls id="modalVideo">
+                                    <source src="" type="video/mp4">
+                                    Your browser does not support the video tag.
+                                </video>
+                            </div>
+                        </div>
+                        {% else %}
+                            <h6>No Videos yet</h6>
+                            <a href="{% url 'add_video' %}" class="bt btn btn-theme">Add video</a>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+            
+        </div>
+    </div>
+
+
+
+    {% include 'includes/alert.html' %}
+{% include 'includes/style_switchers.html' %}
+{% endblock %}
