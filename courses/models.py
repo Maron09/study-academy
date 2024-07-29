@@ -1,6 +1,7 @@
 from django.db import models
 from teacher.models import *
 from moviepy.editor import VideoFileClip
+import os
 
 
 class Category(models.Model):
@@ -30,6 +31,8 @@ class Course(models.Model):
     course_name = models.CharField(max_length=500)
     slug = models.SlugField(max_length=500, unique=True)
     description = models.TextField()
+    for_who = models.TextField(blank=True, null=True)
+    reason = models.TextField(blank=True, null=True)
     intro_video = models.FileField(upload_to='intro_video', blank=True, null=True)
     image = models.FileField(upload_to='course_images')
     price = models.DecimalField(max_digits=10,decimal_places=2)
@@ -66,6 +69,8 @@ class Video(models.Model):
     
     class Meta:
         ordering = ['order']
+    
+    
     
     def get_duration(self):
         video = VideoFileClip(self.video_file.path)

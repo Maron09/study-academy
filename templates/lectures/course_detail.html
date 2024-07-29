@@ -1,0 +1,339 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+
+<!-- breadcrumb start -->
+<div class="breadcrumb-nav">
+    <div class="container">
+        <nav aria-label="breadcrumb">
+            <ol class="breadcrumb mb-0">
+                <li class="breadcrumb-item"><a href="{% url 'home' %}">Home</a></li>
+                <li class="breadcrumb-item"><a href="{% url 'lectures' %}">Courses</a></li>
+                <li class="breadcrumb-item active" aria-current="page">Course detail</li>
+            </ol>
+        </nav>
+    </div>
+</div>
+<!-- breadcrumb end -->
+
+        <!-- course content start -->
+        <section class="section course-details section-padding">
+            <div class="container">
+                <div class="row">
+                    <div class="col-lg-8">
+                        <!-- course header start -->
+                        <div class="course-header box">
+                            <h2 class="text-capitalize">{{course.course_name}}</h2>
+                            <div class="rating">
+                                <span class="average-rating">(4.5)</span>
+                                <span class="average-stars">
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star-half-alt"></i>
+                                </span>
+                                <span class="reviews">(230 Reviews)</span>
+                            </div>
+                            <ul>
+                                <li>enrolled students <b>-</b> <span>2200</span></li>
+                                <li>instructor <b>-</b> <span><a href="#">{{course.teacher.user.get_full_name}}</a></span></li>
+                                <li>last updated <b>-</b> <span>{{course.modified_at|date:"m/Y"}}</span></li>
+                                <li>language <b>-</b> <span>english</span></li>
+                            </ul>
+                        </div>
+                        <!-- course header end -->
+
+                        <!-- course tabs start -->
+                        <nav class="course-tabs">
+                            <div class="nav nav-tabs border-0" id="nav-tab" role="tablist">
+                                <button class="nav-link active" id="course-curriculum-tab" data-bs-toggle="tab" data-bs-target="#course-curriculum" type="button" role="tab" aria-controls="course-curriculum" aria-selected="true">curriculum</button>
+                                <button class="nav-link" id="course-description-tab" data-bs-toggle="tab" data-bs-target="#course-description" type="button" role="tab" aria-controls="course-description" aria-selected="false">description</button>
+                                <button class="nav-link" id="course-instructor-tab" data-bs-toggle="tab" data-bs-target="#course-instructor" type="button" role="tab" aria-controls="course-instructor" aria-selected="false">instructor</button>
+                                <button class="nav-link" id="course-reviews-tab" data-bs-toggle="tab" data-bs-target="#course-reviews" type="button" role="tab" aria-controls="course-reviews" aria-selected="false">reviews</button>
+                            </div>
+                        </nav>
+                        <!-- course tabs end -->
+
+                        <!-- tab panes start -->
+                        <div class="tab-content" id="nav-tabContent">
+                            <!-- curriculum start -->
+                            <div class="tab-pane fade show active" id="course-curriculum" role="tabpanel" aria-labelledby="course-curriculum-tab" tabindex="0">
+                                <div class="course-curriculum box">
+                                    <h3 class="text-capitalize">curriculum</h3>
+                                    <!-- accordion start -->
+                                    <div class="accordion" id="accordion">
+                                        {% for section_info in sections %}
+                                            <!-- accordion item start -->
+                                            <div class="accordion-item">
+                                                <h2 class="accordion-header" id="heading-{{ forloop.counter }}">
+                                                    <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapse-{{ forloop.counter }}" aria-expanded="true" aria-controls="collapse-{{ forloop.counter }}">
+                                                        {{ section_info.section.section_title }} &nbsp; <span>{{ section_info.videos.count }} lessons | {{ section_info.section_total_duration|floatformat:0 }} mins</span>
+                                                    </button>
+                                                </h2>
+                                                <div id="collapse-{{ forloop.counter }}" class="accordion-collapse collapse {% if forloop.first %}show{% endif %}" aria-labelledby="heading-{{ forloop.counter }}" data-bs-parent="#accordion">
+                                                    <div class="accordion-body">
+                                                        <ul>
+                                                            {% for video in section_info.videos %}
+                                                                <li>
+                                                                    <i class="fa fa-play-circle"></i>
+                                                                    {{ video.video_title }}
+                                                                    <span>{{ video.get_duration|floatformat:0 }} mins</span>
+                                                                </li>
+                                                            {% endfor %}
+                                                        </ul>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <!-- accordion item end -->
+                                        {% endfor %}
+                                    </div>
+                                    
+                                    <!-- accordion end -->
+                                </div>
+                            </div>
+                            <!-- curriculum end -->
+
+                            <!-- course description start -->
+                            <div class="tab-pane fade" id="course-description" role="tabpanel" aria-labelledby="course-description-tab" tabindex="0">
+                                <div class="course-description box">
+                                    <h3 class="text-capitalize mb-4">about the course</h3>
+                                    <p>{{ course.description }}</p>
+                                    <h4>for who is this course designed?</h4>
+                                    <p>{{course.for_who}}</p>
+                                    <h4>why should you take this course</h4>
+                                    <p>{{course.reason}}</p>
+                                </div>
+                            </div>
+                            <!-- course description end -->
+                            
+                            <!-- course instructor start -->
+                            <div class="tab-pane fade " id="course-instructor" role="tabpanel" aria-labelledby="course-instructor-tab" tabindex="0">
+                                <div class="course-instructor box">
+                                    <h3 class="mb-3 text-capitalize">instructor</h3>
+                                    <div class="instructor-details">
+                                        <div class="details-wrap d-flex align-items-center flex-wrap">
+                                            <div class="left-box me-4">
+                                                <div class="img-box">
+                                                    {% if course.teacher.user_profile.profile_picture.url %}
+                                                    <img src="{{course.teacher.user_profile.profile_picture.url}}" class="rounded-circle" alt="instructor img">
+                                                    {% else %}
+                                                    <img src="{% static 'img/instructor/1.png' %}" alt="">
+                                                    {% endif %}
+                                                </div>
+                                            </div>
+                                            <div class="right-box">
+                                                <h4>{{course.teacher.user.get_full_name}}<span>({{course.teacher.profession}})</span></h4>
+                                                <ul>
+                                                    <li><i class="fas fa-star"></i> 4.5 rating</li>
+                                                    <li><i class="fas fa-play-circle"></i> 10 courses</li>
+                                                    <li><i class="fas fa-certificate"></i> 3000 reviews</li>
+                                                </ul>
+                                            </div>
+                                        </div>
+                                        <div class="text">
+                                            <p class="mb-0">{{course.teacher.bio}}</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- course instructor end -->
+
+                            <!-- course review start -->
+                            <div class="tab-pane fade" id="course-reviews" role="tabpanel" aria-labelledby="course-reviews-tab" tabindex="0">
+                                <div class="course-review box">
+                                    <!-- rating summary start -->
+                                    <div class="rating-summary">
+                                        <h3 class="md-4 text-capitalize">student feedback</h3>
+                                        <div class="row">
+                                            <div class="col-md-4 d-flex align-items-center justify-content-center text-center">
+                                                <div class="rating-box">
+                                                    <div class="average-rating">4.5</div>
+                                                    <div class="average-stars">
+                                                        <i class="fas fa-star"></i>
+                                                        <i class="fas fa-star"></i>
+                                                        <i class="fas fa-star"></i>
+                                                        <i class="fas fa-star"></i>
+                                                        <i class="fas fa-star-half-alt"></i>
+                                                    </div>
+                                                    <div class="reviews">230 Reviews</div>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-8">
+                                                <div class="rating-bars">
+                                                    <!-- rating bars item start -->
+                                                    <div class="rating-bars-item">
+                                                        <div class="star-text">5 Stars</div>
+                                                        <div class="progress">
+                                                            <div class="progress-bar" style="width: 50%;"></div>
+                                                        </div>
+                                                        <div class="percent">50%</div>
+                                                    </div>
+                                                    <div class="rating-bars-item">
+                                                        <div class="star-text">4 Stars</div>
+                                                        <div class="progress">
+                                                            <div class="progress-bar" style="width: 30%;"></div>
+                                                        </div>
+                                                        <div class="percent">30%</div>
+                                                    </div>
+                                                    <div class="rating-bars-item">
+                                                        <div class="star-text">3 Stars</div>
+                                                        <div class="progress">
+                                                            <div class="progress-bar" style="width: 10%;"></div>
+                                                        </div>
+                                                        <div class="percent">10%</div>
+                                                    </div>
+                                                    <div class="rating-bars-item">
+                                                        <div class="star-text">2 Stars</div>
+                                                        <div class="progress">
+                                                            <div class="progress-bar" style="width: 7%;"></div>
+                                                        </div>
+                                                        <div class="percent">7%</div>
+                                                    </div>
+                                                    <div class="rating-bars-item">
+                                                        <div class="star-text">1 Stars</div>
+                                                        <div class="progress">
+                                                            <div class="progress-bar" style="width: 3%;"></div>
+                                                        </div>
+                                                        <div class="percent">3%</div>
+                                                    </div>
+                                                    <!-- rating bars item end -->
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <!-- rating summary end -->
+
+                                    <!-- review filter start -->
+                                    <div class="reviews-filter">
+                                        <h3 class="mb-4 text-capitalize">reviews</h3>
+                                        <form action="">
+                                            <div class="form-group">
+                                                <i class="fas fa-chevron-down select-icon"></i>
+                                                <select name="" id="" class="form-control">
+                                                    <option value="">All Reviews</option>
+                                                    <option value="1">1 star</option>
+                                                    <option value="2">2 star</option>
+                                                    <option value="3">3 star</option>
+                                                    <option value="4">4 star</option>
+                                                    <option value="5">5 star</option>
+                                                </select>
+                                            </div>
+                                        </form>
+                                    </div>
+                                    <!-- review filter end -->
+
+                                    <!-- review list start -->
+                                    <div class="reviews-list">
+                                        <!-- review item start -->
+                                        <div class="reviews-item">
+                                            <div class="img-box">
+                                                <img src="{% static 'img/review/1.png' %}" alt="feedback">
+                                            </div>
+                                            <h4>john doe</h4>
+                                            <div class="stars-rating">
+                                                <i class="fas fa-star"></i>
+                                                <i class="fas fa-star"></i>
+                                                <i class="fas fa-star"></i>
+                                                <i class="fas fa-star"></i>
+                                                <i class="fas fa-star"></i>
+                                                <span class="date">1 week ago</span>
+                                            </div>
+                                            <p>Great work. i learnt a lot</p>
+                                        </div>
+                                        <div class="reviews-item">
+                                            <div class="img-box">
+                                                <img src="{% static 'img/review/1.png' %}" alt="feedback">
+                                            </div>
+                                            <h4>john doe</h4>
+                                            <div class="stars-rating">
+                                                <i class="fas fa-star"></i>
+                                                <i class="fas fa-star"></i>
+                                                <i class="fas fa-star"></i>
+                                                <i class="fas fa-star"></i>
+                                                <i class="fas fa-star"></i>
+                                                <span class="date">1 week ago</span>
+                                            </div>
+                                            <p>Great work. i learnt a lot</p>
+                                        </div>
+                                        <div class="reviews-item">
+                                            <div class="img-box">
+                                                <img src="{% static 'img/review/1.png' %}" alt="feedback">
+                                            </div>
+                                            <h4>john doe</h4>
+                                            <div class="stars-rating">
+                                                <i class="fas fa-star"></i>
+                                                <i class="fas fa-star"></i>
+                                                <i class="fas fa-star"></i>
+                                                <i class="fas fa-star"></i>
+                                                <i class="fas fa-star"></i>
+                                                <span class="date">1 week ago</span>
+                                            </div>
+                                            <p>Great work. i learnt a lot</p>
+                                        </div>
+                                        <!-- review item end -->
+                                    </div>
+                                    <!-- review list end -->
+                                    <button type="button" class="btn btn-theme">more reviews</button>
+                                </div>
+                            </div>
+                            <!-- course review end -->
+                        </div>
+                        <!-- tab panes end -->
+                    </div>
+                    <div class="col-lg-4">
+                        <!-- course siderbar start -->
+                        <div class="course-sidebar box">
+                            <div class="img-box position-relative" data-bs-toggle="modal"  data-bs-target="#video-modal">
+                                <img src="{{course.image.url}}" class="w-100" alt="">
+                                <div class="play-icon">
+                                    <i class="fa fa-play"></i>
+                                </div>
+                                <p class="text-capitalize text-center">course preview</p>
+                            </div>
+                            <div class="price d-flex align-items-center mb-3">
+                                <!-- <span class="price-old text-decoration-line-through">$100</span> -->
+                                <span class="price-new">${{course.price|floatformat:0}}</span>
+                                <!-- <span class="price-discount">51% Off</span> -->
+                            </div>
+                            <h3 class="mb-3 text-capitalize">course features</h3>
+                            <ul class="features-list">
+                                <li>Total {{total_lessons}} lessons</li>
+                                {% load custom_filters %}
+                                <li>{{total_duration|format_duration}}</li>
+                                
+                            </ul>
+                            <div class="btn-wrap">
+                                <button type="button" class="btn btn-theme btn-block">Add to Cart</button>
+                            </div>
+                        </div>
+                        <!-- course siderbar end -->
+                    </div>
+                </div>
+            </div>
+        </section>
+        <!-- course content end -->
+
+        <!-- course preview modal start -->
+    <div class="modal fade video-modal js-course-preview-modal" id="video-modal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-body p-0">
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
+                        <i class="fa fa-times"></i>
+                    </button>
+                    <div class="ratio ratio-16x9">
+                        <video controls class="js-course-preview-video">
+                            <source src="{{course.intro_video.url}}" type="video/mp4">
+                        </video>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- course preview modal end -->
+
+
+
+{% endblock %}

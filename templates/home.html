@@ -91,17 +91,22 @@
                 </div>
                 <div class="row">
                     <!-- Course item start -->
+                    {% for course in courses %}
                     <div class="col-md-6 col-lg-3">
                         <div class="course-item">
-                            <a href="#" class="link">
+                            <a href="{% url 'course_detail' course.slug %}" class="link">
                                 <div class="course-item-inner">
                                     <div class="img-box">
-                                        <img src="img/courses/web-development/1.jpg" alt="course">
+                                        <img src="{{course.image.url}}" alt="course">
                                     </div>
-                                    <h3 class="title">html for beginners</h3>
+                                    <h3 class="title">{{course.course_name}}</h3>
                                     <div class="instructor">
-                                        <img src="img/instructor/1.png" alt="teacher">
-                                        <span class="instructor-name">john doe</span>
+                                        {% if course.teacher.user_profile.profile_picture %}
+                                        <img src="{{course.teacher.user_profile.profile_picture.url}}" alt="teacher">
+                                        {% else %}
+                                        <img src="{% static 'img/instructor/1.png' %}" alt="teacher">
+                                        {% endif %}
+                                        <span class="instructor-name">{{ course.teacher.user.get_full_name }}</span>
                                     </div>
                                     <div class="rating">
                                         <span class="average-rating">(4.5)</span>
@@ -114,100 +119,17 @@
                                         </span>
                                         <span class="reviews">(230)</span>
                                     </div>
-                                    <div class="price">$49</div>
+                                    <div class="price">${{course.price|floatformat:0}}</div>
                                 </div>
                             </a>
                         </div>
                     </div>
-                    <div class="col-md-6 col-lg-3">
-                        <div class="course-item">
-                            <a href="#" class="link">
-                                <div class="course-item-inner">
-                                    <div class="img-box">
-                                        <img src="img/courses/web-development/2.jpg" alt="course">
-                                    </div>
-                                    <h3 class="title">css for beginners</h3>
-                                    <div class="instructor">
-                                        <img src="img/instructor/1.png" alt="teacher">
-                                        <span class="instructor-name">john doe</span>
-                                    </div>
-                                    <div class="rating">
-                                        <span class="average-rating">(4.5)</span>
-                                        <span class="average-stars">
-                                            <i class="fas fa-star"></i>
-                                            <i class="fas fa-star"></i>
-                                            <i class="fas fa-star"></i>
-                                            <i class="fas fa-star"></i>
-                                            <i class="fas fa-star-half-alt"></i>
-                                        </span>
-                                        <span class="reviews">(230)</span>
-                                    </div>
-                                    <div class="price">$49</div>
-                                </div>
-                            </a>
-                        </div>
-                    </div>
-                    <div class="col-md-6 col-lg-3">
-                        <div class="course-item">
-                            <a href="#" class="link">
-                                <div class="course-item-inner">
-                                    <div class="img-box">
-                                        <img src="img/courses/web-development/3.jpg" alt="course">
-                                    </div>
-                                    <h3 class="title">javascript for beginners</h3>
-                                    <div class="instructor">
-                                        <img src="img/instructor/1.png" alt="teacher">
-                                        <span class="instructor-name">john doe</span>
-                                    </div>
-                                    <div class="rating">
-                                        <span class="average-rating">(4.5)</span>
-                                        <span class="average-stars">
-                                            <i class="fas fa-star"></i>
-                                            <i class="fas fa-star"></i>
-                                            <i class="fas fa-star"></i>
-                                            <i class="fas fa-star"></i>
-                                            <i class="fas fa-star-half-alt"></i>
-                                        </span>
-                                        <span class="reviews">(230)</span>
-                                    </div>
-                                    <div class="price">$49</div>
-                                </div>
-                            </a>
-                        </div>
-                    </div>
-                    <div class="col-md-6 col-lg-3">
-                        <div class="course-item">
-                            <a href="#" class="link">
-                                <div class="course-item-inner">
-                                    <div class="img-box">
-                                        <img src="img/courses/web-development/4.jpg" alt="course">
-                                    </div>
-                                    <h3 class="title">django for beginners</h3>
-                                    <div class="instructor">
-                                        <img src="img/instructor/1.png" alt="teacher">
-                                        <span class="instructor-name">john doe</span>
-                                    </div>
-                                    <div class="rating">
-                                        <span class="average-rating">(4.5)</span>
-                                        <span class="average-stars">
-                                            <i class="fas fa-star"></i>
-                                            <i class="fas fa-star"></i>
-                                            <i class="fas fa-star"></i>
-                                            <i class="fas fa-star"></i>
-                                            <i class="fas fa-star-half-alt"></i>
-                                        </span>
-                                        <span class="reviews">(230)</span>
-                                    </div>
-                                    <div class="price">$49</div>
-                                </div>
-                            </a>
-                        </div>
-                    </div>
+                    {% endfor %}
                     <!-- Course item end -->
                 </div>
                 <div class="row">
                     <div class="col-12 text-center mt-3">
-                        <a href="#" class="btn btn-theme">view all  courses</a>
+                        <a href="{% url 'lectures' %}" class="btn btn-theme">view all  courses</a>
                     </div>
                 </div>
             </div>

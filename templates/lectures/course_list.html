@@ -1,0 +1,89 @@
+{% extends 'base.html' %}
+{% load static %}
+
+
+{% block content %}
+
+<!-- breadcrumb start -->
+<div class="breadcrumb-nav">
+    <div class="container">
+        <nav aria-label="breadcrumb">
+            <ol class="breadcrumb mb-0">
+                <li class="breadcrumb-item"><a href="{% url 'home' %}">Home</a></li>
+                <li class="breadcrumb-item active" aria-current="page">Courses</li>
+            </ol>
+        </nav>
+    </div>
+</div>
+<!-- breadcrumb end -->
+
+        <!-- course section start -->
+        <section class="courses-section section-padding">
+            <div class="container">
+                <div class="row justify-content-center">
+                    <div class="col-md-8">
+                        <div class="section-title text-center mb-4">
+                            <h2 class="title">Available courses</h2>
+                            <p class="sub-title">find the right course for you</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-12">
+                        <!-- <nav>
+                            {% for category in categories %}
+                            <div class="nav nav-tabs border-0 justify-content-center md-4" id="nav-tab" role="tablist">
+                                <button class="nav-link active" id="{{category.category_name}}-tab" data-bs-toggle="tab" data-bs-target="#{{category.category_name}}" type="button" role="tab" aria-controls="{{category.category_name}}" aria-selected="true">{{category.category_name}}</button>
+                            </div>
+                            {% endfor %}
+                        </nav> -->
+                        
+                        <div class="tab-content" id="nav-tabContent">
+                            <div class="tab-pane fade show active"  role="tabpanel" tabindex="0">
+                                <div class="row justify-content-center">
+                                    {% for course in courses %}
+                                    <div class="col-md-6 col-lg-3">
+                                        <div class="course-item">
+                                            <a href="{% url 'course_detail' course.slug %}" class="link">
+                                                <div class="course-item-inner">
+                                                    <div class="img-box">
+                                                        <img src="{{course.image.url}}" alt="course">
+                                                    </div>
+                                                    <h3 class="title">{{course.course_name}}</h3>
+                                                    <div class="instructor">
+                                                        {% if course.teacher.user_profile.profile_picture %}
+                                                        <img src="{{course.teacher.user_profile.profile_picture.url}}" alt="teacher">
+                                                        {% else %}
+                                                        <img src="{% static 'img/instructor/1.png' %}" alt="teacher">
+                                                        {% endif %}
+                                                        <span class="instructor-name">{{ course.teacher.user.get_full_name }}</span>
+                                                    </div>
+                                                    <div class="rating">
+                                                        <span class="average-rating">(4.5)</span>
+                                                        <span class="average-stars">
+                                                            <i class="fas fa-star"></i>
+                                                            <i class="fas fa-star"></i>
+                                                            <i class="fas fa-star"></i>
+                                                            <i class="fas fa-star"></i>
+                                                            <i class="fas fa-star-half-alt"></i>
+                                                        </span>
+                                                        <span class="reviews">(230)</span>
+                                                    </div>
+                                                    <div class="price">${{course.price|floatformat:0}}</div>
+                                                </div>
+                                            </a>
+                                        </div>
+                                    </div>
+                                    <!-- Course item end -->
+                                    {% endfor %}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+            </div>
+        </section>
+        <!-- course section end -->
+
+{% endblock %}

@@ -21,18 +21,19 @@
                     <ul class="menu">
                         <li class="menu-items"><a href="{% url 'home' %}">Home</a></li>
                         <li class="menu-items menu-item-has-children">
-                            <a href="#" class="js-toggle-sub-menu">Courses <i class="fas fa-chevron-down"></i></a>
-                            <ul class="sub-menu js-sub-menu">
+                            <a href="{% url 'lectures' %}" class="js-toggle-sub-menu">Courses</a>
+                            <!-- <ul class="sub-menu js-sub-menu">
                                 <li class="sub-menu-items"><a href="#">course</a></li>
                                 <li class="sub-menu-items"><a href="#">course details</a></li>
-                            </ul>
+                            </ul> -->
                         </li>
                         {% if user.is_authenticated %}
+                        <li class="menu-items"><a href="#">Cart<i style='font-size:15px' class="fa fa-shopping-cart" aria-hidden="true"></i></a></li>
                         <li class="menu-items"><a href="{% url 'my_account' %}">Account<i class="fa fa-user" style='font-size:15px'></i></a></li>
                         <li class="menu-items"><a href="{% url 'logout' %}">Logout <i class="fa fa-sign-out" style="font-size: 15px;"></i></a></li>
                         {% else %}
                         <li class="menu-items menu-item-has-children">
-                            <a href="#" class="js-toggle-sub-menu">Pages <i class="fas fa-chevron-down"></i></a>
+                            <a href="#" class="js-toggle-sub-menu"><i class="fa fa-sign-in" style="font-size: 20px;" aria-hidden="true"></i> <i class="fas fa-chevron-down"></i></a>
                             <ul class="sub-menu js-sub-menu">
                                 <li class="sub-menu-items"><a href="{% url 'login' %}">Login</a></li>
                                 <li class="sub-menu-items"><a href="{% url 'register_user' %}">Sigup</a></li>

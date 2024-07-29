@@ -13,7 +13,7 @@ class CourseForm(forms.ModelForm):
     intro_video = forms.FileField(widget=forms.FileInput(attrs={'class': 'btn btn-info'}), validators=[allow_only_videos])
     class Meta:
         model = Course
-        fields = ['category', 'course_name', 'description', 'intro_video', 'image', 'price']
+        fields = ['category', 'course_name', 'description', 'for_who', 'reason', 'intro_video', 'image', 'price']
 
 
 
