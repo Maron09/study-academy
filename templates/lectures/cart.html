@@ -1,0 +1,112 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+
+<!-- breadcrumb start -->
+<div class="breadcrumb-nav">
+    <div class="container">
+        <nav aria-label="breadcrumb">
+            <ol class="breadcrumb mb-0">
+                <li class="breadcrumb-item"><a href="{% url 'home' %}">Home</a></li>
+                <li class="breadcrumb-item active" aria-current="page">Cart</li>
+            </ol>
+        </nav>
+    </div>
+</div>
+
+
+<section class="section course-details section-padding">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-md-8 col-sm-8 col-xs-12">
+                <div class="course-header box">
+                    <h6 class="p-2">Cart Items</h6>
+                    <hr>
+                    <br>
+                    <ul>
+                        {% if cart_items %}
+                            {% for item in cart_items %}
+                                <li id="cart-item-{{item.id}}" class="cart_items">
+                                    <a class="link" href="{% url 'course_detail' item.course.slug %}">
+                                        <div class="image-holder">
+                                            <img src="{{item.course.image.url}}" alt="">
+                                        </div>
+                                        <div class="text-holder">
+                                            
+                                                <h6><b>{{item.course}}</b></h6>
+                                            
+                                        </div>
+                                    </a>
+                                    <a href="#"  data-url="{% url 'delete_from_cart' item.id %}" class="btn btn-outline-danger p-2 mt-3 delete-from-cart" id="del-cart" data-id="{{item.id}}">
+                                        Remove from Cart
+                                    </a>
+
+                                    <div class="text-end align-items-start">
+                                        <span class="fw-bold">${{item.course.price}}</span>
+                                    </div>
+                                    
+                                    
+                                </li>
+                                <hr>
+                            {% endfor %}
+                        {% else %}
+                            <h6 class="text-center p-5">Cart is Empty</h6>
+                        {% endif %}
+                    </ul>
+
+                </div>
+            </div>
+
+            <div class="col-lg-4">
+                <div class="course-sidebar box">
+                    <ul class="stickynav-tabs nav nav-tabs">
+                        <li class="active"><a data-toggle="tab"> Your Order</a></li>
+                        
+                    </ul>
+                    <li style="list-style-type: none; font-weight: 600;" class="list-group-item d-flex justify-content-between align-items-center">
+                        Total
+                        <span class="text-end">
+                            <span class="currency">$</span>
+                            <span id="total">{{total_price|floatformat:0}}</span>
+                        </span>
+                    </li>
+
+                    <a href="#" class="btn btn-theme btn-block w-100 p-2 mt-3" >
+                        Checkout
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    
+</section>
+
+<script>
+    $(document).on('click', '#del-cart', function(e){
+        e.preventDefault();
+        var cart_id = $(this).attr('data-id');
+        var url = $(this).attr('data-url')
+
+        $.ajax({
+            type:'GET',
+            url: url,
+            data: {
+                course_id: $('#del-cart').val(),
+                csrfmiddlewaretoken: '{{csrf_token}}',
+                action: 'post'
+            },
+            success: function(json){
+                // console.log(json)
+                // document.getElementById('cart_quantity').textContent = json.cart_count
+                window.location.reload()
+            },
+            error: function(xhr, errmsg, err){
+
+            }
+        })
+    });
+</script>
+
+{% endblock %}

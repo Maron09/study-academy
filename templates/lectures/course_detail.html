@@ -305,7 +305,9 @@
                                 
                             </ul>
                             <div class="btn-wrap">
-                                <button type="button" class="btn btn-theme btn-block">Add to Cart</button>
+                                <a href="{% url 'add_to_cart' course.id %}">
+                                    <button type="button" class="btn btn-theme btn-block" id="add-cart" value="{{course.id}}" >Add to Cart</button>
+                                </a>
                             </div>
                         </div>
                         <!-- course siderbar end -->
@@ -334,6 +336,34 @@
     </div>
     <!-- course preview modal end -->
 
+    <script>
+        // check button pressed
 
+        $(document).on('click', '#add-cart', function(e){
+            e.preventDefault();
+            var button = $(this);
+
+            $.ajax({
+                type:'POST',
+                url: "{% url 'add_to_cart' course.id %}",
+                data: {
+                    course_id: $('#add-cart').val(),
+                    csrfmiddlewaretoken: '{{csrf_token}}',
+                    action: 'post'
+                },
+                success: function(json){
+                    // console.log(json.cart_count)
+                    document.getElementById('cart_quantity').textContent = json.cart_count
+                    // Change button text and disable it
+                    button.text('Added to Cart');
+                    button.prop('disabled', true);
+                    button.addClass('btn-muted');
+                },
+                error: function(xhr, errmsg, err){
+
+                }
+            })
+        });
+    </script>
 
 {% endblock %}

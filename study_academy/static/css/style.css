@@ -1300,3 +1300,42 @@ textarea.form-control{
     top: 0;
     animation: loaderIn 2s linear infinite;
 }
+
+/* cart */
+
+.menu-items .cart-amount {
+    background-color: var(--main-color); /* Red background for visibility */
+    color: var(--WHITE);
+    font-size: 12px;
+    padding: 2px 6px;
+    border-radius: 50%;
+    position: absolute;
+    top: 15px;
+    right: -20px;
+    font-weight: bold;
+}
+
+.btn-muted {
+    background-color: #ccc;
+    color: #666;
+    cursor: not-allowed;
+}
+
+
+.image-holder { 
+    display: inline-block; 
+    width: 65px; 
+    height: 65px; 
+    vertical-align: top; 
+}
+
+.text-holder { 
+    display: block;
+    padding: 18px; 
+    margin: auto;
+    float: right; 
+    width: -webkit-calc(100% - 90px); 
+    width: -moz-calc(100% - 90px); 
+    /* width: calc(100% - 90px);  */
+}
+

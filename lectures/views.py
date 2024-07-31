@@ -1,7 +1,11 @@
 from django.shortcuts import render, get_object_or_404,redirect
+from django.http import JsonResponse
+from django.shortcuts import get_object_or_404
+from django.contrib.auth.decorators import login_required
 from django.db.models import Sum
 from teacher.models import *
 from courses.models import *
+from .models import *
 
 
 
@@ -35,23 +39,92 @@ def course_detail(request, course_slug):
             'videos': videos,
         })
         
-        # if total_duration >= 60:
-        #     if total_duration >= 3600:
-        #         display_duration = total_duration / 3600
-        #         duration_unit = "hours"
-        #     else:
-        #         display_duration = total_duration / 60
-        #         duration_unit = "minutes"
-        # else:
-        #     display_duration = total_duration
-        #     duration_unit = "seconds"
+        
         
     context = {
         'course': course,
         'sections': section_data,
         'total_lessons': total_lessons,
         'total_duration': total_duration,
-        # 'display_duration': display_duration,
-        # 'duration_unit': duration_unit,
     }
     return render(request, 'lectures/course_detail.html', context)
+
+
+@login_required(login_url='login')
+def cart_page(request):
+    cart_items = Cart.objects.filter(user=request.user).order_by('created_at')
+    total_price = sum(item.course.price for item in cart_items)
+    context = {
+        'cart_items': cart_items,
+        'total_price': total_price,
+    }
+    return render(request, 'lectures/cart.html', context)
+
+
+
+
+def add_to_cart(request, course_id):
+    if request.user.is_authenticated:
+        course = get_object_or_404(Course, pk=course_id)
+        cart_item, created = Cart.objects.get_or_create(user=request.user, course=course)
+        
+        
+        cart_items = Cart.objects.filter(user=request.user)
+        cart_count = cart_items.count()
+        
+        total_price = sum(item.course.price for item in cart_items)
+        item_details = [
+            {
+                'course': course.course_name,
+                'price': course.price
+            }
+            for item in cart_items
+        ]
+        
+        if created:
+            message = 'Added to Cart'
+        else:
+            message = 'Already in Cart'
+        print(f'Course ID: {course_id}, Message: {message}')
+        return JsonResponse({
+            'message': message,
+            'total_price': total_price,
+            'item_details': item_details,
+            'cart_count': cart_count
+        })
+    message = 'Please Login to continue'
+    return JsonResponse({'message': message})
+
+
+def delete_from_cart(request, cart_id):
+    if request.user.is_authenticated:
+        cart_item = Cart.objects.filter(user=request.user, pk=cart_id).first()
+        if cart_item:
+            cart_item.delete()
+            
+            cart_items = Cart.objects.filter(user=request.user)
+            cart_count = cart_items.count()
+            total_price = sum(item.course.price for item in cart_items)
+            item_details = [
+                {
+                    'course': item.course.course_name,
+                    'price': item.course.price
+                }
+                for item in cart_items
+            ]
+            message = 'Cart item deleted'
+            return JsonResponse({
+                'message': message,
+                'total_price': total_price,
+                'item_details': item_details,
+                'cart_count': cart_count
+            })
+        return JsonResponse({
+            'message': 'item does not exist'
+        })
+    return JsonResponse({
+        'message': 'Login to Continue'
+    })
+
+
+

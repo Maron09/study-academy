@@ -28,7 +28,18 @@
                             </ul> -->
                         </li>
                         {% if user.is_authenticated %}
-                        <li class="menu-items"><a href="#">Cart<i style='font-size:15px' class="fa fa-shopping-cart" aria-hidden="true"></i></a></li>
+                        <li class="menu-items">
+                            <a href="{% url 'cart' %}">Cart
+                                <i style='font-size:15px' class="fa fa-shopping-cart" aria-hidden="true"></i>
+                            </a>
+                            <span class="cart-amount" id="cart_quantity">
+                                {% if cart_count %}
+                                    {{ cart_count }}
+                                {% else %}
+                                    0
+                                {% endif %}
+                            </span>
+                        </li>
                         <li class="menu-items"><a href="{% url 'my_account' %}">Account<i class="fa fa-user" style='font-size:15px'></i></a></li>
                         <li class="menu-items"><a href="{% url 'logout' %}">Logout <i class="fa fa-sign-out" style="font-size: 15px;"></i></a></li>
                         {% else %}
@@ -37,9 +48,10 @@
                             <ul class="sub-menu js-sub-menu">
                                 <li class="sub-menu-items"><a href="{% url 'login' %}">Login</a></li>
                                 <li class="sub-menu-items"><a href="{% url 'register_user' %}">Sigup</a></li>
-                                <li class="sub-menu-items"><a href="{% url 'register_teacher' %}">Sigup as a Teacher</a></li>
+                                
                             </ul>
                         </li>
+                        <li class="menu-items"><a href="{% url 'register_teacher' %}">Become an Instructor</a></li>
                         {% endif %}
                         <!-- <li class="menu-items"><a href="contact.html">Contact</a></li> -->
                     </ul>

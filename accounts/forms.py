@@ -64,7 +64,7 @@ class UserForm(forms.ModelForm):
 
 class UserProfileForm(forms.ModelForm):
     profile_picture = forms.FileField(widget=forms.FileInput(attrs={'class': 'btn btn-info'}), validators=[allow_only_images])
-    country = forms.CharField(widget=forms.TextInput(attrs={'class': 'form-group'}))
+    country = forms.CharField(widget=forms.TextInput(attrs={'class': 'form-control'}))
     class Meta:
         model = UserProfile
         fields = ['profile_picture', 'country']

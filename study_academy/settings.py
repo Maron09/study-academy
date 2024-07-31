@@ -70,6 +70,8 @@ TEMPLATES = [
                 'django.contrib.messages.context_processors.messages',
                 'accounts.context_processors.get_teacher',
                 'accounts.context_processors.get_user_profile',
+                'lectures.context_processors.cart_count',
+                # 'lectures.context_processors.total_price',
             ],
         },
     },

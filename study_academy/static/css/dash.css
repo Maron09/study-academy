@@ -544,7 +544,7 @@ body{
 }
 
 .profile-container {
-    display: flex;
+    display: inline;
     align-items: center;
     padding: 10px;
     background-color: var(--border-color-2);
