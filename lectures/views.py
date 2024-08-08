@@ -6,6 +6,7 @@ from django.db.models import Sum
 from teacher.models import *
 from courses.models import *
 from .models import *
+from orders.forms import *
 
 
 
@@ -128,3 +129,26 @@ def delete_from_cart(request, cart_id):
 
 
 
+@login_required(login_url='login')
+def checkout_page(request):
+    cart_items = Cart.objects.filter(user=request.user).order_by('created_at')
+    total_price = sum(item.course.price for item in cart_items)
+    
+    if cart_items.count() <= 0:
+        return redirect('lectures')
+    
+    
+    user_profile = UserProfile.objects.get(user=request.user)
+    default_values = {
+        'first_name': request.user.first_name,
+        'last_name': request.user.last_name,
+        'email': request.user.email,
+        'country': user_profile.country
+    }
+    form = OrderForm(initial=default_values)
+    context = {
+        'form': form,
+        'cart_items': cart_items,
+        'total_price': total_price,
+    }
+    return render(request, 'lectures/checkout.html', context)

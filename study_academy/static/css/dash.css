@@ -415,6 +415,7 @@ body{
     position: relative;
     padding: 5px 10px;
     border-radius: 5px;
+    color: var(--WHITE);
     font-size: 1rem;
 }
 
@@ -747,6 +748,7 @@ h6 {
     border-radius: 4px;
     text-decoration: none;
     margin-right: 10px;
+    color: var(--WHITE);
 }
 
 .btn-secondary {

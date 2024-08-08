@@ -28,5 +28,8 @@ urlpatterns = [
     path('lectures/', include('lectures.urls')),
     
     path('cart/', Lectureviews.cart_page, name='cart'),
+    path('checkout/', Lectureviews.checkout_page, name='checkout'), 
+    
+    path('orders/', include('orders.urls')),
     
 ] +  static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

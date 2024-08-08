@@ -354,6 +354,14 @@
                 success: function(json){
                     // console.log(json.cart_count)
                     document.getElementById('cart_quantity').textContent = json.cart_count
+
+                    // Display success alert
+                    Swal.fire({
+                        title: 'Added to Cart',
+                        text: 'The item has been added to your cart.',
+                        icon: 'success',
+                        confirmButtonText: 'OK'
+                    });
                     // Change button text and disable it
                     button.text('Added to Cart');
                     button.prop('disabled', true);

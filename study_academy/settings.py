@@ -43,6 +43,7 @@ INSTALLED_APPS = [
     'teacher',
     'courses',
     'lectures',
+    'orders',
 ]
 
 MIDDLEWARE = [
@@ -71,6 +72,7 @@ TEMPLATES = [
                 'accounts.context_processors.get_teacher',
                 'accounts.context_processors.get_user_profile',
                 'lectures.context_processors.cart_count',
+                'accounts.context_processors.get_paypal_client_id',
                 # 'lectures.context_processors.total_price',
             ],
         },
@@ -161,4 +163,10 @@ EMAIL_HOST_USER = config('EMAIL_HOST_USER')
 EMAIL_HOST_PASSWORD = config('EMAIL_HOST_PASSWORD')
 EMAIL_USE_TLS = config('EMAIL_USE_TLS', cast=bool)
 EMAIL_USE_SSL = config('EMAIL_USE_SSL', cast=bool)
-DEFAULT_FROM_EMAIL = 'Study Academy <maroks216@gmail.com>' # gives it a default name 
+DEFAULT_FROM_EMAIL = 'Study Academy <maroks216@gmail.com>'
+
+
+PAYPAL_CLIENT_ID = config('PAYPAL_CLIENT_ID')
+
+# This allows for popups in django
+SECURE_CROSS_ORIGIN_OPENER_POLICY='same-origin-allow-popups'
