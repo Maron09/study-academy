@@ -14,6 +14,10 @@
     z-index: 99;
 }
 
+.accordion-body a{
+    color: var(--black-90);
+}
+
 @media (max-width: 767px) {
     [dir="rtl"] .aligned ul,
     [dir="rtl"] form .aligned ul.errorlist {

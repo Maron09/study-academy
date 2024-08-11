@@ -22,5 +22,6 @@ urlpatterns = [
     path('reset_password_validate/<uidb64>/<token>/', views.reset_password_validate, name='reset_password_validate'),
     path('reset_password/', views.reset_password, name='reset_password'),
     
-    path('teacher/', include('teacher.urls'))
+    path('teacher/', include('teacher.urls')),
+    path('student/', include('students.urls')),
 ]

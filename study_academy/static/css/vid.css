@@ -1,0 +1,129 @@
+/* Container styling */
+.container {
+    width: 100%;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 20px;
+}
+
+/* Video pane styling */
+#video-pane {
+    width: 100%;
+    margin-bottom: 20px;
+}
+
+#video-pane video {
+    width: 100%;
+    height: auto;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+/* Accordion styling */
+.accordion {
+    background-color: #f8f9fa;
+    border-radius: 5px;
+    border: 1px solid #ddd;
+}
+
+.accordion-item {
+    border-bottom: 1px solid #ddd;
+}
+
+.accordion-header {
+    margin: 0;
+    padding: 10px 15px;
+    background-color: #e9ecef;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.accordion-button {
+    width: 100%;
+    background-color: transparent;
+    border: none;
+    outline: none;
+    text-align: left;
+    font-size: 16px;
+    font-weight: bold;
+    padding: 10px 15px;
+}
+
+.accordion-button:focus {
+    outline: none;
+}
+
+.accordion-button[aria-expanded="true"] {
+    background-color: #ddd;
+}
+
+.accordion-collapse {
+    display: none;
+    padding: 10px 15px;
+}
+
+.accordion-collapse.show {
+    display: block;
+}
+
+.accordion-body {
+    padding: 15px;
+    background-color: #fff;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+}
+
+/* Video list styling */
+.accordion-body ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.accordion-body ul li {
+    margin-bottom: 10px;
+}
+
+.accordion-body ul li a {
+    color: #007bff;
+    text-decoration: none;
+    font-size: 14px;
+}
+
+.accordion-body ul li a:hover {
+    text-decoration: underline;
+}
+
+/* General styles */
+h2 {
+    font-size: 18px;
+    margin: 0;
+}
+
+button {
+    cursor: pointer;
+}
+
+button:focus {
+    outline: none;
+}
+
+a {
+    cursor: pointer;
+}
+
+a:focus {
+    outline: none;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    .accordion-button {
+        font-size: 14px;
+    }
+
+    .accordion-body {
+        padding: 10px;
+    }
+}

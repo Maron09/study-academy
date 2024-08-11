@@ -1,0 +1,66 @@
+{% extends 'base2.html' %}
+
+{% load static %}
+
+{% block content %}
+<div class="container">
+    {% include 'includes/stud_nav.html' %}
+    <!-- main -->
+    <div class="main">
+        <div class="topbar d-flex justify-content-between flex-grow-1">
+            <div class="toggle">
+                <ion-icon name="menu-outline"></ion-icon>
+            </div>
+
+            <div class="search">
+                <label>
+                    <input type="text" placeholder="search..">
+                    <ion-icon name="search-outline"></ion-icon>
+                </label>
+            </div>
+        </div>
+
+        <!-- orders -->
+        <div class="profile_details">
+            <div class="my-courses-container">
+                <div class="card_header">
+                    <h2>My Courses</h2>
+                </div>
+                
+                {% if my_courses %}
+                    <div class="courses-grid">
+                        {% for course in my_courses %}
+                            <div class="course-item">
+                                <a href="{% url 'my_course_detail' course.course.slug %}" class="link">
+                                    <div class="course-item-inner">
+                                        <div class="img-box">
+                                            <img src="{{course.course.image.url}}" alt="course">
+                                        </div>
+                                        <h3 class="title">{{course.course.course_name}}</h3>
+                                        <!-- <div class="instructor">
+                                            {% if course.course.teacher.user_profile.profile_picture %}
+                                            <img src="{{course.course.teacher.user_profile.profile_picture.url}}" alt="teacher">
+                                            {% else %}
+                                            <img src="{% static 'img/instructor/1.png' %}" alt="teacher">
+                                            {% endif %}
+                                            <span class="instructor-name">{{ course.course.teacher.user.get_full_name }}</span>
+                                        </div> -->
+                                    </div>
+                                </a>
+                            </div>
+                        {% endfor %}
+                    </div>
+                {% else %}
+                    <p class="no-courses-message">You are not enrolled in any courses yet.</p>
+                {% endif %}
+            </div>
+        </div>
+        
+        
+        
+    </div>
+</div>
+
+{% include 'includes/style_switchers.html' %}
+
+{% endblock %}

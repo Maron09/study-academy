@@ -43,7 +43,7 @@ class Order(models.Model):
         return f"{self.first_name} {self.last_name}"
     
     def _str__(self):
-        return f"{self.id} by {self.name}"
+        return f"Order {self.id} by {self.name}"
 
 
 class OrderItem(models.Model):

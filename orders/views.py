@@ -45,40 +45,69 @@ def place_order(request):
 
 @login_required(login_url='login')
 def payments(request):
-    if request.headers.get('x-requested-with') == 'XMLHttpRequest' and 'POST':
+    if request.headers.get('x-requested-with') == 'XMLHttpRequest' and request.method == 'POST':
         order_number = request.POST.get('order_number')
         payment_id = request.POST.get('payment_id')
-        status = request.POST.get('payment_id')
+        status = request.POST.get('status')
         
-        
-        order = Order.objects.get(user=request.user, order_number=order_number)
-        payment = Payment(
-            user = request.user,
-            payment_id = payment_id,
-            amount = order.total_amount,
-            status = status
-        )
-        payment.save()
-        
-        order.payment = payment
-        order.save()
-        
-        
-        cart_items = Cart.objects.filter(user=request.user)
-        for item in cart_items:
+        try:
+            order = Order.objects.get(user=request.user, order_number=order_number)
+            payment = Payment(
+                user=request.user,
+                payment_id=payment_id,
+                amount=order.total_amount,
+                status=status
+            )
+            payment.save()
             
-            order_item = OrderItem()
-            order_item.order = order
-            order_item.course = item.course
-            order_item.price = item.price
-            order_item.save()
+            order.payment = payment
+            order.status = Order.COMPLETED if status == 'COMPLETED' else Order.FAILED
+            order.save()
             
+            cart_items = Cart.objects.filter(user=request.user)
+            for item in cart_items:
+                order_item = OrderItem(
+                    order=order,
+                    course=item.course,
+                    price=item.course.price
+                )
+                order_item.save()
+
+                if status == 'COMPLETED':
+                    enrollment = Enrollment(
+                        student=request.user,
+                        course=item.course
+                    )
+                    enrollment.save()
+            
+            if status == 'COMPLETED':
+                cart_items.delete()
+
+            response = {
+                'order_number': order_number,
+                'payment_id': payment_id,
+                'status': status,
+            }
+            return JsonResponse(response)
         
-        
-        # cart_items.delete()
-        response = {
-            'order_number': order_number,
-            'payment_id': payment_id
+        except Order.DoesNotExist:
+            return JsonResponse({'error': 'Order not found'}, status=404)
+    
+    return HttpResponse('Invalid request')
+
+
+@login_required(login_url='login')
+def order_complete(request):
+    order_number = request.GET.get('order_no')
+    payment_id = request.GET.get('pay_id')
+    
+    try:
+        order = Order.objects.get(order_number=order_number, payment__payment_id=payment_id)
+        order_item = OrderItem.objects.filter(order=order)
+        context ={
+            'order': order,
+            'order_item': order_item
         }
-        return JsonResponse(response)
-    return HttpResponse('Payment view')
+        return render(request, 'orders/order_complete.html', context)
+    except Order.DoesNotExist:
+        return redirect('home')

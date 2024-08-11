@@ -1,0 +1,60 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+
+<!-- breadcrumb start -->
+<div class="breadcrumb-nav">
+    <div class="container">
+        <nav aria-label="breadcrumb">
+            <ol class="breadcrumb mb-0">
+                <li class="breadcrumb-item"><a href="{% url 'home' %}">Home</a></li>
+                <li class="breadcrumb-item active" aria-current="page">Order Complete</li>
+            </ol>
+        </nav>
+    </div>
+</div>
+
+
+<section class="section course-details section-padding">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                <div class="course-header box">
+                    <h6 class="p-2 text-center fs-5 fw-bold">Order Complete</h6>
+                    <hr>
+                    <div class="text-center fs-1 text-capitalize fw-bolder"><b>Congrats on your purchase {{order.name}}</b></div>
+
+                    <p class="text-center fs-4">Your Courses can be Viewed in your Dashboard</p>
+                    <ul class="justify-content-center">
+                        
+                            {% for item in order_item %}
+                                <li id="cart-item-{{item.id}}" class="cart_items">
+                                    <a class="link" href="{% url 'course_detail' item.course.slug %}">
+                                        <div class="image-holder">
+                                            <img src="{{item.course.image.url}}" alt="">
+                                        </div>
+                                        <div class="text-holder">
+                                            
+                                                <h6><b>{{item.course}}</b></h6>
+                                            
+                                        </div>
+                                    </a>
+
+                                    
+                                    <hr>
+                                    
+                                </li>
+                                
+                            {% endfor %}
+                        
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    
+</section>
+
+{% endblock %}
