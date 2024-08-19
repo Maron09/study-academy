@@ -59,15 +59,21 @@
                                                         <span class="instructor-name">{{ course.teacher.user.get_full_name }}</span>
                                                     </div>
                                                     <div class="rating">
-                                                        <span class="average-rating">(4.5)</span>
+                                                        <span class="average-rating">({{course.average_rating | floatformat:1}})</span>
                                                         <span class="average-stars">
-                                                            <i class="fas fa-star"></i>
-                                                            <i class="fas fa-star"></i>
-                                                            <i class="fas fa-star"></i>
-                                                            <i class="fas fa-star"></i>
-                                                            <i class="fas fa-star-half-alt"></i>
+                                                            {% load custom_filters %}
+                                                            {% for i in 1|to_range:5 %}
+                                                                {% if course.average_rating >= i %}
+                                                                    <i class="fas fa-star"></i>
+                                                                {% elif course.average_rating >= i|subtract:0.5 %}
+                                                                    <i class="fas fa-star-half-alt"></i>
+                                                                {% else %}
+                                                                    <i class="far fa-star"></i>
+                                                                {% endif %}
+                                                            {% endfor %}
                                                         </span>
-                                                        <span class="reviews">(230)</span>
+                                                        
+                                                        <span class="reviews">({{course.total_reviews}})</span>
                                                     </div>
                                                     <div class="price">${{course.price|floatformat:0}}</div>
                                                 </div>

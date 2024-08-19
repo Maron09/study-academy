@@ -1,0 +1,87 @@
+{% extends 'base2.html' %}
+
+{% load static %}
+
+
+{% block content %}
+
+    <!-- Navbar -->
+    <div class="container">
+        {% include 'includes/stud_nav.html' %}
+        <!-- main -->
+        <div class="main">
+            <div class="topbar d-flex justify-content-between flex-grow-1">
+                <div class="toggle">
+                    <ion-icon name="menu-outline"></ion-icon>
+                </div>
+
+                <div class="search">
+                    <label>
+                        <input type="text" placeholder="search..">
+                        <ion-icon name="search-outline"></ion-icon>
+                    </label>
+                </div>
+            </div>
+
+            
+            <!-- orders -->
+            <div class="course_details">
+                <div class="course_field">
+                    <div class="card_header">
+                        <h2>Give Your Rating</h2>
+                    </div>
+                    
+                    <button class="btn btn-secondary" onclick="history.back()"><i class="fa fa-arrow-left"></i> &nbsp;</button>
+                    <hr>
+                    <form action="{% url 'submit_review' %}" method="POST">
+                        {% csrf_token %}
+                        
+                        <div class="form-group">
+                            <label for="course">Select Course:</label>
+                            <select name="course" id="course" required>
+                                <option>Select...</option>
+                                {% for course in form.fields.course.queryset %}
+                                <option value="{{ course.id }}">{{ course.course_name }}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            {{form.rating}}
+                        </div>
+                        <div class="form-group">
+                            <label for="">Review:</label>
+                            {{form.review}}
+                            
+                        </div>
+                        <button type="submit" class="btn btn-theme btn-block btn-form"> <i class="fa fa-check" aria-hidden="true"></i> Submit Review</button>
+                    </form>
+                </div>
+            </div>
+            
+        </div>
+    </div>
+    <script>
+        document.querySelectorAll('.star').forEach(function(star) {
+        star.addEventListener('click', function() {
+            let ratingValue = this.getAttribute('data-value');
+            document.getElementById('ratingValue').value = ratingValue;
+            updateStars(ratingValue);
+        });
+    });
+
+    function updateStars(ratingValue) {
+        document.querySelectorAll('.star').forEach(function(star) {
+            if (parseFloat(star.getAttribute('data-value')) <= parseFloat(ratingValue)) {
+                star.style.color = 'gold';
+            } else {
+                star.style.color = 'gray';
+            }
+        });
+    }
+    </script>
+
+
+
+
+{% include 'includes/style_switchers.html' %}
+{% endblock %}

@@ -26,15 +26,20 @@
                         <div class="course-header box">
                             <h2 class="text-capitalize">{{course.course_name}}</h2>
                             <div class="rating">
-                                <span class="average-rating">(4.5)</span>
+                                <span class="average-rating">({{course_average_rating | floatformat:1}})</span>
                                 <span class="average-stars">
-                                    <i class="fas fa-star"></i>
-                                    <i class="fas fa-star"></i>
-                                    <i class="fas fa-star"></i>
-                                    <i class="fas fa-star"></i>
-                                    <i class="fas fa-star-half-alt"></i>
+                                    {% load custom_filters %}
+                                    {% for i in 1|to_range:5 %}
+                                        {% if course.average_rating >= i %}
+                                            <i class="fas fa-star"></i>
+                                        {% elif course.average_rating >= i|subtract:0.5 %}
+                                            <i class="fas fa-star-half-alt"></i>
+                                        {% else %}
+                                            <i class="far fa-star"></i>
+                                        {% endif %}
+                                    {% endfor %}
                                 </span>
-                                <span class="reviews">(230 Reviews)</span>
+                                <span class="reviews">({{course_total_reviews}} Reviews)</span>
                             </div>
                             <ul>
                                 <li>enrolled students <b>-</b> <span>2200</span></li>
@@ -126,9 +131,9 @@
                                             <div class="right-box">
                                                 <h4>{{course.teacher.user.get_full_name}}<span>({{course.teacher.profession}})</span></h4>
                                                 <ul>
-                                                    <li><i class="fas fa-star"></i> 4.5 rating</li>
-                                                    <li><i class="fas fa-play-circle"></i> 10 courses</li>
-                                                    <li><i class="fas fa-certificate"></i> 3000 reviews</li>
+                                                    <li><i class="fas fa-star"></i> {{course_average_rating | floatformat:1}} rating</li>
+                                                    <li><i class="fas fa-play-circle"></i> {{total_courses}} courses</li>
+                                                    <li><i class="fas fa-certificate"></i> {{total_teacher_reviews}} reviews</li>
                                                 </ul>
                                             </div>
                                         </div>
@@ -306,7 +311,7 @@
                             </ul>
                             <div class="btn-wrap">
                                 <a href="{% url 'add_to_cart' course.id %}">
-                                    <button type="button" class="btn btn-theme btn-block" id="add-cart" value="{{course.id}}" >Add to Cart</button>
+                                    <button type="button" class="btn btn-theme btn-block" id="add-cart" value="{{course.id}}" {% if user.role == 1 %} disabled {% endif %}>Add to Cart</button>
                                 </a>
                             </div>
                         </div>

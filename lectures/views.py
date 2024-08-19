@@ -1,5 +1,5 @@
 from django.shortcuts import render, get_object_or_404,redirect
-from django.http import JsonResponse
+from django.http import JsonResponse, HttpResponse
 from django.shortcuts import get_object_or_404
 from django.contrib.auth.decorators import login_required
 from django.db.models import Sum
@@ -13,6 +13,11 @@ from orders.forms import *
 
 def course_list(request):
     courses = Course.objects.select_related('teacher').all()
+    
+    for course in courses:
+        course.average_rating = course.average_rating()
+        course.total_reviews = course.total_reviews()
+    
     context = {
         'courses': courses
     }
@@ -21,16 +26,26 @@ def course_list(request):
 
 def course_detail(request, course_slug):
     course = get_object_or_404(Course, slug=course_slug)
-    # print(f"Retrieved course: {course}")
+    teacher = course.teacher
+    
+    teacher_courses = Course.objects.filter(teacher=teacher)
+    
+    total_courses = teacher_courses.count()
+    total_teacher_reviews = sum(course.total_reviews() for course in teacher_courses)
+    
+    
+    course_average_rating = course.average_rating()
+    course_total_reviews = course.total_reviews()
+    
     sections = Section.objects.filter(course=course).prefetch_related('videos')
-    # print(f"Retrieved sections: {sections}")
+
     section_data = []
     
     total_lessons = 0
     total_duration = 0
     for section in sections:
         videos = section.videos.all()
-        section_total_duration = sum(video.get_duration() for video in videos)  # Ensure this line runs properly
+        section_total_duration = sum(video.get_duration() for video in videos)  
         total_lessons += videos.count()
         total_duration += section_total_duration
         
@@ -47,6 +62,11 @@ def course_detail(request, course_slug):
         'sections': section_data,
         'total_lessons': total_lessons,
         'total_duration': total_duration,
+        'teacher': teacher,
+        'total_courses': total_courses,
+        'total_teacher_reviews': total_teacher_reviews,
+        'course_average_rating': course_average_rating,
+        'course_total_reviews': course_total_reviews,
     }
     return render(request, 'lectures/course_detail.html', context)
 
@@ -65,6 +85,10 @@ def cart_page(request):
 
 
 def add_to_cart(request, course_id):
+    if request.user.role == 1:
+        return HttpResponse("You are not allowed to add items to the cart.")
+    
+    
     if request.user.is_authenticated:
         course = get_object_or_404(Course, pk=course_id)
         cart_item, created = Cart.objects.get_or_create(user=request.user, course=course)

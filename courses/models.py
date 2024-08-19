@@ -2,6 +2,7 @@ from django.db import models
 from teacher.models import *
 from moviepy.editor import VideoFileClip
 import os
+from django.db.models import Avg
 
 
 class Category(models.Model):
@@ -39,6 +40,12 @@ class Course(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
     modified_at = models.DateTimeField(auto_now=True)
     
+    def total_reviews(self):
+        return self.ratings.count()
+    
+    def average_rating(self):
+        avg_rating = self.ratings.aggregate(average=Avg('rating'))['average']
+        return round(avg_rating, 2) if avg_rating else 0
     
     def __str__(self):
         return self.course_name

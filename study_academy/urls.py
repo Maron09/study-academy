@@ -26,6 +26,7 @@ urlpatterns = [
     path('', views.home, name='home'),
     path('', include('accounts.urls')),
     path('lectures/', include('lectures.urls')),
+    path('ratings/', include('ratings.urls')),
     
     path('cart/', Lectureviews.cart_page, name='cart'),
     path('checkout/', Lectureviews.checkout_page, name='checkout'), 
