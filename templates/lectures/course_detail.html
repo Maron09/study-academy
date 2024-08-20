@@ -42,7 +42,7 @@
                                 <span class="reviews">({{course_total_reviews}} Reviews)</span>
                             </div>
                             <ul>
-                                <li>enrolled students <b>-</b> <span>2200</span></li>
+                                <li>enrolled students <b>-</b> <span>{{total_students_enrolled}}</span></li>
                                 <li>instructor <b>-</b> <span><a href="#">{{course.teacher.user.get_full_name}}</a></span></li>
                                 <li>last updated <b>-</b> <span>{{course.modified_at|date:"m/Y"}}</span></li>
                                 <li>language <b>-</b> <span>english</span></li>
@@ -154,15 +154,20 @@
                                         <div class="row">
                                             <div class="col-md-4 d-flex align-items-center justify-content-center text-center">
                                                 <div class="rating-box">
-                                                    <div class="average-rating">4.5</div>
+                                                    <div class="average-rating">{{course_average_rating | floatformat:1}}</div>
                                                     <div class="average-stars">
-                                                        <i class="fas fa-star"></i>
-                                                        <i class="fas fa-star"></i>
-                                                        <i class="fas fa-star"></i>
-                                                        <i class="fas fa-star"></i>
-                                                        <i class="fas fa-star-half-alt"></i>
+                                                        {% load custom_filters %}
+                                                        {% for i in 1|to_range:5 %}
+                                                            {% if course.average_rating >= i %}
+                                                                <i class="fas fa-star"></i>
+                                                            {% elif course.average_rating >= i|subtract:0.5 %}
+                                                                <i class="fas fa-star-half-alt"></i>
+                                                            {% else %}
+                                                                <i class="far fa-star"></i>
+                                                            {% endif %}
+                                                        {% endfor %}
                                                     </div>
-                                                    <div class="reviews">230 Reviews</div>
+                                                    <div class="reviews">{{course_total_reviews}} Reviews</div>
                                                 </div>
                                             </div>
                                             <div class="col-md-8">
@@ -232,50 +237,36 @@
                                     <!-- review list start -->
                                     <div class="reviews-list">
                                         <!-- review item start -->
-                                        <div class="reviews-item">
-                                            <div class="img-box">
-                                                <img src="{% static 'img/review/1.png' %}" alt="feedback">
+                                        <div class="reviews-section">
+                                            {% for review in reviews %}
+                                            <div class="reviews-item">
+                                                <div class="img-box">
+                                                    {% if review.student.userprofile and review.student.userprofile.profile_picture %}
+                                                    <img src="{{ review.student.userprofile.profile_picture.url}}" alt="">
+                                                    
+                                                    {% else %}
+                                                    <img src="img/testimonial/1.png" alt="">
+                                                    {% endif %} 
+                                                </div>
+                                                <h4>{{ review.student.first_name}} {{review.student.last_name}}</h4>
+                                                <div class="stars-rating">
+                                                    {% load custom_filters %}
+                                                    {% for i in 1|to_range:5 %}
+                                                        {% if course.average_rating >= i %}
+                                                            <i class="fas fa-star"></i>
+                                                        {% elif course.average_rating >= i|subtract:0.5 %}
+                                                            <i class="fas fa-star-half-alt"></i>
+                                                        {% else %}
+                                                            <i class="far fa-star"></i>
+                                                        {% endif %}
+                                                    {% endfor %}
+                                                    <span class="date">{{ review.created_at|timesince }} ago</span>
+                                                </div>
+                                                <p>{{ review.review }}</p>
                                             </div>
-                                            <h4>john doe</h4>
-                                            <div class="stars-rating">
-                                                <i class="fas fa-star"></i>
-                                                <i class="fas fa-star"></i>
-                                                <i class="fas fa-star"></i>
-                                                <i class="fas fa-star"></i>
-                                                <i class="fas fa-star"></i>
-                                                <span class="date">1 week ago</span>
-                                            </div>
-                                            <p>Great work. i learnt a lot</p>
-                                        </div>
-                                        <div class="reviews-item">
-                                            <div class="img-box">
-                                                <img src="{% static 'img/review/1.png' %}" alt="feedback">
-                                            </div>
-                                            <h4>john doe</h4>
-                                            <div class="stars-rating">
-                                                <i class="fas fa-star"></i>
-                                                <i class="fas fa-star"></i>
-                                                <i class="fas fa-star"></i>
-                                                <i class="fas fa-star"></i>
-                                                <i class="fas fa-star"></i>
-                                                <span class="date">1 week ago</span>
-                                            </div>
-                                            <p>Great work. i learnt a lot</p>
-                                        </div>
-                                        <div class="reviews-item">
-                                            <div class="img-box">
-                                                <img src="{% static 'img/review/1.png' %}" alt="feedback">
-                                            </div>
-                                            <h4>john doe</h4>
-                                            <div class="stars-rating">
-                                                <i class="fas fa-star"></i>
-                                                <i class="fas fa-star"></i>
-                                                <i class="fas fa-star"></i>
-                                                <i class="fas fa-star"></i>
-                                                <i class="fas fa-star"></i>
-                                                <span class="date">1 week ago</span>
-                                            </div>
-                                            <p>Great work. i learnt a lot</p>
+                                            {% empty %}
+                                            <p>No reviews yet.</p>
+                                            {% endfor %}
                                         </div>
                                         <!-- review item end -->
                                     </div>

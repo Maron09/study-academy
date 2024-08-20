@@ -32,13 +32,15 @@ def course_detail(request, course_slug):
     
     total_courses = teacher_courses.count()
     total_teacher_reviews = sum(course.total_reviews() for course in teacher_courses)
-    
+    total_students_enrolled = Enrollment.objects.filter(course__in=teacher_courses).count()
     
     course_average_rating = course.average_rating()
     course_total_reviews = course.total_reviews()
     
     sections = Section.objects.filter(course=course).prefetch_related('videos')
 
+    reviews = course.ratings.all()
+    
     section_data = []
     
     total_lessons = 0
@@ -67,6 +69,8 @@ def course_detail(request, course_slug):
         'total_teacher_reviews': total_teacher_reviews,
         'course_average_rating': course_average_rating,
         'course_total_reviews': course_total_reviews,
+        'total_students_enrolled' : total_students_enrolled,
+        'reviews': reviews,
     }
     return render(request, 'lectures/course_detail.html', context)
 

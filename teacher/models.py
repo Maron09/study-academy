@@ -9,7 +9,7 @@ from django.utils.text import slugify
 
 
 class Teacher(models.Model):
-    user = models.OneToOneField(User, on_delete=models.CASCADE, related_name='user')
+    user = models.OneToOneField(User, on_delete=models.CASCADE, related_name='teacher')
     user_profile = models.OneToOneField(UserProfile, on_delete=models.CASCADE, related_name='userprofile')
     bio = models.TextField(blank=True, null=True)
     profession = models.CharField(max_length=100, blank=True, null=True)

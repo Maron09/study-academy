@@ -1,4 +1,7 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import get_object_or_404, render, redirect
+
+from courses.models import Course
+from orders.models import Enrollment, OrderItem, Payment
 from.forms import *
 from django.contrib import messages, auth
 from django.contrib.auth.decorators import login_required, user_passes_test
@@ -8,6 +11,8 @@ from .utils import *
 from teacher.models import *
 from teacher.forms import *
 from django.template.defaultfilters import slugify
+from .context_processors import *
+from django.db.models import Sum
 
 
 
@@ -145,7 +150,25 @@ def student_dashboard(request):
 @login_required(login_url='login')
 @user_passes_test(check_role_teacher)
 def teacher_dashboard(request):
-    return render(request, 'accounts/teacher_dashboard.html')
+    teacher = request.user.teacher
+    
+    teacher_courses = Course.objects.filter(teacher=teacher)
+    
+    total_courses = teacher_courses.count()
+    
+    total_students_enrolled = Enrollment.objects.filter(course__in=teacher_courses).count()
+    total_teacher_reviews = sum(course.total_reviews() for course in teacher_courses)
+
+    total_revenue = OrderItem.objects.filter(course__in=teacher_courses).aggregate(total=Sum('price'))['total'] or 0
+
+    context = {
+        'total_courses': total_courses,
+        'total_students_enrolled': total_students_enrolled,
+        'total_teacher_reviews': total_teacher_reviews,
+        'total_revenue': total_revenue,
+    }
+    
+    return render(request, 'accounts/teacher_dashboard.html', context)
 
 
 def forgot_password(request):
