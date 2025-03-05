@@ -27,7 +27,7 @@ SECRET_KEY = config("SECRET_KEY")
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ["study_academy.onrender.com"]
+ALLOWED_HOSTS = ["study-academy.onrender.com"]
 
 
 # Application definition
