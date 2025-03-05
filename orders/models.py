@@ -30,7 +30,7 @@ class Order(models.Model):
     payment = models.ForeignKey(Payment, on_delete=models.SET_NULL, null=True)
     created_at = models.DateTimeField(auto_now_add=True)
     total_amount = models.DecimalField(max_digits=10, decimal_places=2)
-    status = models.CharField(choices=PAYMENT_STATUS_CHOICES, default=PENDING)
+    status = models.CharField(choices=PAYMENT_STATUS_CHOICES, default=PENDING, max_length=100)
     order_number = models.CharField(max_length=20, blank=True)
     email = models.EmailField(max_length=100)
     first_name = models.CharField(max_length=50)
