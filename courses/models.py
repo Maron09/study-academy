@@ -1,6 +1,6 @@
 from django.db import models
 from teacher.models import *
-from moviepy.editor import VideoFileClip
+from moviepy import VideoFileClip
 import os
 from django.db.models import Avg
 
